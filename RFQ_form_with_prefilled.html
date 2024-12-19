@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFQ Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+    <script>
+        function validateForm(event) {
+            const requiredFields = document.querySelectorAll('[data-required="true"]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                const errorSpan = field.nextElementSibling;
+                if (!field.value.trim()) {
+                    errorSpan.textContent = "This field is required.";
+                    isValid = false;
+                } else {
+                    errorSpan.textContent = "";
+                }
+
+                // Additional validation for specific fields
+                if (field.name === "email" && field.value) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(field.value)) {
+                        errorSpan.textContent = "Please enter a valid email address.";
+                        isValid = false;
+                    }
+                }
+            });
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+        }
+    </script>
+</head>
+<body>
+    <form onsubmit="validateForm(event)">
+        <h2>Request for Quotation (RFQ) Form</h2>
+
+        <label for="company-name">Company Name</label>
+        <input type="text" id="company-name" name="company-name" data-required="true">
+        <span class="error"></span>
+
+        <label for="contact-name">Contact Name</label>
+        <input type="text" id="contact-name" name="contact-name" data-required="true">
+        <span class="error"></span>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" data-required="true">
+        <span class="error"></span>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone">
+        <span class="error"></span>
+
+        <label for="rfq-number">RFQ Number</label>
+        <input type="text" id="rfq-number" name="rfq-number" data-required="true">
+        <span class="error"></span>
+
+        <label for="product-name">Product Name</label>
+        <input type="text" id="product-name" name="product-name" value="INDUSTRIAL GLUE" readonly>
+
+        <label for="product-description">Product Description</label>
+        <textarea id="product-description" name="product-description" rows="4" readonly>High Grade Industrial Glue Semi Fluid Transparent 1pk-50 Ml Adhesive</textarea>
+
+        <label for="quantity">Product Quantity</label>
+        <input type="number" id="quantity" name="quantity" value="200" readonly>
+
+        <label for="unit">Unit of Measure</label>
+        <select id="unit" name="unit" data-required="true">
+            <option value="">Select Unit</option>
+            <option value="kg">Kilogram (kg)</option>
+            <option value="pcs" selected>Pieces (pcs)</option>
+            <option value="m">Meters (m)</option>
+        </select>
+        <span class="error"></span>
+
+        <label for="currency">Currency</label>
+        <select id="currency" name="currency" data-required="true">
+            <option value="">Select Currency</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="INR">INR</option>
+            <option value="GBP">GBP</option>
+        </select>
+        <span class="error"></span>
+
+        <label for="delivery-date">Required Delivery Date</label>
+        <input type="date" id="delivery-date" name="delivery-date" data-required="true">
+        <span class="error"></span>
+
+        <label for="delivery-terms">Delivery Terms (Incoterms)</label>
+        <input type="text" id="delivery-terms" name="delivery-terms" data-required="true">
+        <span class="error"></span>
+
+        <label for="price">Unit Price</label>
+        <input type="text" id="price" name="price" data-required="true">
+        <span class="error"></span>
+
+        <label for="certifications">Certifications (if any)</label>
+        <input type="text" id="certifications" name="certifications">
+        <span class="error"></span>
+
+        <input type="submit" value="Submit RFQ">
+    </form>
+</body>
+</html>
